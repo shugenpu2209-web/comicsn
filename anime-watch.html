@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>动画播放 - COMICSN</title>
+  <meta name="description" content="COMICSN 动画播放">
+  <meta name="theme-color" content="#292929">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=47">
+  <link rel="stylesheet" href="css/anime.css?v=41">
+</head>
+<body>
+  <script src="js/chrome.js?v=13" data-chrome="head"></script>
+  <main class="anime-watch">
+    <div class="anime-watch-layout">
+      <section class="anime-watch-main">
+        <div class="anime-player" id="animePlayer">
+          <img class="anime-player-shot" id="animeShot" src="assets/comics/thumb-2.webp" alt="">
+          <video class="anime-player-video" id="animeVideo" playsinline preload="metadata"></video>
+          <button type="button" class="anime-player-bigplay" id="animeBigPlay" aria-label="播放" data-i18n-aria="play"></button>
+          <div class="anime-player-lock" id="animeLock" hidden>
+            <p class="anime-hero-kicker" data-i18n="membership">会员资格</p>
+            <h2 data-i18n="continueVip">开通 VIP 继续观看</h2>
+            <p id="animeLockText">第7集起为 VIP 专属，开通后可继续观看</p>
+            <a href="mypage.html#vip" data-i18n="goVip">前往充值</a>
+          </div>
+          <div class="anime-player-bar">
+            <button type="button" class="anime-player-toggle" id="animeToggle" aria-label="播放/暂停" data-i18n-aria="playPause"></button>
+            <input type="range" class="anime-player-progress" id="animeProgress" min="0" max="100" value="0" aria-label="播放进度" data-i18n-aria="progressAria">
+            <span class="anime-player-time" id="animeTime">00:00 / 00:00</span>
+            <button type="button" class="anime-player-full" id="animeFull" aria-label="全屏" data-i18n-aria="fullscreen">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="anime-watch-info">
+        <div class="anime-badges" id="animeBadges">
+          <span class="anime-badge anime-badge-exclusive" id="animeExclusiveBadge" hidden data-i18n="exclusive">独播</span>
+          <span class="anime-badge anime-badge-hot" id="animeHotBadge" hidden>HOT</span>
+        </div>
+        <div class="anime-info-head">
+          <div class="anime-info-copy">
+            <h1 class="anime-watch-title" id="animeWatchTitle">动画</h1>
+            <div class="anime-watch-byline">
+              <p class="anime-watch-author" id="animeWatchAuthor"></p>
+              <p class="anime-watch-published" id="animeWatchPublished"></p>
+            </div>
+            <div class="anime-watch-stats">
+              <button type="button" class="anime-watch-stat is-like" id="animeWatchLikes" data-like-kind="anime" aria-pressed="false" aria-label="喜欢" data-i18n-aria="like">
+                <svg class="anime-like-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                <span id="animeWatchLikeCount"></span>
+              </button>
+              <span class="anime-watch-stat is-views" id="animeWatchViews"></span>
+            </div>
+          </div>
+          <div class="anime-info-actions">
+            <button type="button" class="anime-info-action" id="animeFavBtn" aria-label="收藏" aria-pressed="false" data-i18n-aria="bookmark" data-bookmark-kind="anime">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </button>
+            <button type="button" class="anime-info-action" id="animeShareBtn" aria-label="分享" data-i18n-aria="share">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <details class="anime-watch-details" open>
+          <summary data-i18n="details">细节</summary>
+          <p id="animeWatchDetails"></p>
+        </details>
+
+        <div class="anime-watch-keywords">
+          <span class="anime-watch-keywords-label" data-i18n="keywords">关键词</span>
+          <div class="anime-watch-tags" id="animeWatchTags"></div>
+        </div>
+
+        <div class="anime-watch-cta">
+          <a href="mypage.html#vip" class="anime-watch-btn anime-watch-btn-outline" data-i18n="unlockAll">解锁全部</a>
+          <button type="button" class="anime-watch-btn anime-watch-btn-primary" id="animeWatchStart" data-i18n="freeWatch">免费观看1集 &gt;</button>
+        </div>
+
+        <a href="mypage.html#vip" class="anime-watch-promo">
+          <div class="anime-watch-promo-title">50% OFF</div>
+          <div class="anime-watch-promo-sub">Your First Purchase</div>
+        </a>
+      </aside>
+
+      <section class="anime-watch-related-videos">
+        <h2 class="anime-section-title" data-i18n="relatedVideos">相关视频</h2>
+        <div class="anime-relvid-list" id="animeRelatedVideos"></div>
+      </section>
+
+      <section class="anime-watch-related">
+        <h2 class="anime-section-title" data-i18n="relatedAnime">猜你喜欢</h2>
+        <div class="anime-related" id="animeRelated"></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/chrome.js?v=13" data-chrome="foot"></script>
+
+  <script src="js/shared.js?v=32"></script>
+  <script src="js/main.js?v=42"></script>
+  <script src="js/anime-watch.js?v=26"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>漫画 - COMICSN</title>
+  <meta name="description" content="COMICSN 漫画频道">
+  <meta name="theme-color" content="#292929">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=47">
+  <link rel="stylesheet" href="css/category.css?v=9">
+  <link rel="stylesheet" href="css/manga.css?v=3">
+</head>
+<body data-i18n-doc="docManga">
+  <script src="js/chrome.js?v=13" data-chrome="head"></script>
+  <main class="manga-page">
+    <section class="manga-section" aria-labelledby="mangaCatsTitle">
+      <h2 class="manga-section-title" id="mangaCatsTitle" data-i18n="hotCats">热门类别</h2>
+      <div class="manga-cats" role="tablist" aria-label="热门类别" data-i18n-aria="hotCats">
+        <button type="button" class="manga-cat is-active" role="tab" aria-selected="true" data-category="all" data-i18n="catAll">全部</button>
+        <button type="button" class="manga-cat" role="tab" aria-selected="false" data-category="korean" data-i18n="catKorean">韩漫</button>
+        <button type="button" class="manga-cat" role="tab" aria-selected="false" data-category="japanese" data-i18n="catJapanese">日漫</button>
+        <button type="button" class="manga-cat" role="tab" aria-selected="false" data-category="school" data-i18n="catSchool">校园</button>
+        <button type="button" class="manga-cat" role="tab" aria-selected="false" data-category="bl" data-i18n="catBl">耽美</button>
+        <button type="button" class="manga-cat" role="tab" aria-selected="false" data-category="fantasy" data-i18n="catFantasy">奇幻</button>
+        <button type="button" class="manga-cat" role="tab" aria-selected="false" data-category="romance" data-i18n="catRomance">浪漫</button>
+        <button type="button" class="manga-cat" role="tab" aria-selected="false" data-category="action" data-i18n="catAction">动作</button>
+        <button type="button" class="manga-cat" role="tab" aria-selected="false" data-category="sci-fi" data-i18n="catSciFi">科幻</button>
+        <button type="button" class="manga-cat" role="tab" aria-selected="false" data-category="comedy" data-i18n="catComedy">喜剧</button>
+        <button type="button" class="manga-cat" role="tab" aria-selected="false" data-category="slice" data-i18n="catSlice">生活</button>
+      </div>
+    </section>
+
+    <section class="manga-section" aria-labelledby="mangaRecoTitle">
+      <h2 class="manga-section-title" id="mangaRecoTitle" data-i18n="weekReco">本周推荐</h2>
+      <div class="manga-recommend" id="mangaRecommend"></div>
+    </section>
+
+    <div class="manga-toolbar">
+      <div class="manga-tabs" role="tablist" aria-label="漫画筛选" data-i18n-aria="mangaFilter">
+        <button type="button" class="manga-tab is-active" role="tab" aria-selected="true" data-tab="all" data-i18n="catAll">全部</button>
+        <button type="button" class="manga-tab" role="tab" aria-selected="false" data-tab="updating" data-i18n="tabUpdating">连载中</button>
+        <button type="button" class="manga-tab" role="tab" aria-selected="false" data-tab="ended" data-i18n="tabEnded">已完结</button>
+        <button type="button" class="manga-tab" role="tab" aria-selected="false" data-tab="vip" data-i18n="tabVip">VIP专属</button>
+        <button type="button" class="manga-tab" role="tab" aria-selected="false" data-tab="free" data-i18n="tabFree">免费</button>
+      </div>
+      <div class="manga-sort" id="mangaSort">
+        <button type="button" class="manga-sort-btn" id="mangaSortBtn" aria-haspopup="listbox" aria-expanded="false">
+          <svg class="manga-sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+            <path d="M8 6v12M8 6l-3 3M8 6l3 3M16 18V6M16 18l-3-3M16 18l3-3"/>
+          </svg>
+          <span id="mangaSortLabel" data-i18n="sortPop">按人气排序</span>
+          <svg class="manga-sort-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="manga-sort-menu" role="listbox" aria-label="排序方式" data-i18n-aria="sortAria">
+          <button type="button" class="manga-sort-option is-active" role="option" data-sort="popularity" data-i18n="sortPop">按人气排序</button>
+          <button type="button" class="manga-sort-option" role="option" data-sort="views" data-i18n="sortViews">浏览量最高</button>
+          <button type="button" class="manga-sort-option" role="option" data-sort="latest" data-i18n="sortLatest">最新</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-grid manga-grid" id="mangaGrid"></div>
+  </main>
+
+  <script src="js/chrome.js?v=13" data-chrome="foot"></script>
+
+  <script src="js/shared.js?v=32"></script>
+  <script src="js/main.js?v=42"></script>
+  <script src="js/catalog.js?v=4" data-catalog="manga"></script>
+</body>
+</html>

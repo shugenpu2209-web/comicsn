@@ -1,0 +1,256 @@
+/* ===== Ranking Page ===== */
+.ranking-page {
+  position: relative;
+  z-index: 0;
+  padding-bottom: 40px;
+}
+
+.ranking-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 12px 14px;
+}
+
+.ranking-types {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.ranking-types::-webkit-scrollbar {
+  display: none;
+}
+
+.ranking-type {
+  flex-shrink: 0;
+  padding: 7px 16px;
+  border-radius: 18px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+
+.ranking-type:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.ranking-type.is-active {
+  background: var(--accent-red);
+  color: #fff;
+  font-weight: 700;
+}
+
+.ranking-period {
+  position: relative;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.ranking-period-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  padding: 7px 14px 7px 12px;
+  border: 1px solid #f3c14a;
+  border-radius: 18px;
+  background: rgba(243, 193, 74, 0.14);
+  color: #f3c14a;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition: background 0.2s, color 0.2s;
+}
+
+.ranking-period-btn:hover,
+.ranking-period.is-open .ranking-period-btn {
+  background: #f3c14a;
+  color: #1e1f21;
+}
+
+.ranking-period-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.ranking-period-chevron {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.ranking-period.is-open .ranking-period-chevron {
+  transform: rotate(180deg);
+}
+
+.ranking-period-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  z-index: 20;
+  min-width: 140px;
+  padding: 6px 0;
+  border-radius: 6px;
+  background: #3a3a3a;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.ranking-period.is-open .ranking-period-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ranking-period-option {
+  display: block;
+  width: 100%;
+  padding: 8px 14px;
+  font-size: 13px;
+  text-align: left;
+}
+
+.ranking-period-option.is-active,
+.ranking-period-option:hover {
+  background: rgba(243, 193, 74, 0.16);
+  color: #f3c14a;
+}
+
+.ranking-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 1%;
+  row-gap: calc(16px + 1%);
+  padding: 16px 10px 0;
+}
+
+.ranking-card {
+  display: block;
+  min-width: 0;
+}
+
+.ranking-thumb {
+  position: relative;
+  aspect-ratio: 3 / 4.2;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #2d2d2d;
+  margin-bottom: 8px;
+}
+
+.ranking-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ranking-num {
+  position: absolute;
+  bottom: 0;
+  left: 2px;
+  z-index: 1;
+  font-size: 42px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+  -webkit-text-stroke: 2px #000;
+}
+
+.ranking-title-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 4px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.ranking-title {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 100%;
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ranking-badges {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ranking-meta {
+  gap: 20%;
+  margin-top: 1px;
+}
+
+.ranking-meta .views img {
+  height: 0.4rem;
+  width: auto;
+  opacity: 1;
+}
+
+@media (min-width: 769px) {
+  .ranking-toolbar,
+  .ranking-grid {
+    max-width: var(--max-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ranking-toolbar,
+  .ranking-grid {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .ranking-toolbar {
+    padding-top: 22px;
+    padding-bottom: 16px;
+  }
+
+  .ranking-grid {
+    grid-template-columns: repeat(6, 1fr);
+    padding-top: 20px;
+  }
+
+  .ranking-num {
+    font-size: 48px;
+  }
+
+  .ranking-title {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .ranking-toolbar,
+  .ranking-grid {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ranking-toolbar,
+  .ranking-grid {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}

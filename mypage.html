@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>我的页面 - COMICSN</title>
+  <meta name="description" content="COMICSN 我的页面 - 账户、VIP 充值与会员记录">
+  <meta name="theme-color" content="#292929">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=47">
+  <link rel="stylesheet" href="css/mypage.css?v=11">
+</head>
+<body data-i18n-doc="docMypage">
+  <script src="js/chrome.js?v=13" data-chrome="head"></script>
+  <main class="mypage">
+    <div class="mypage-inner">
+      <section class="mypage-profile" aria-label="账户信息" data-i18n-aria="accountAria">
+        <img class="mypage-profile-google" src="assets/menu/icon_google.svg" alt="Google">
+        <div class="mypage-profile-info">
+          <div class="menu-vip-badge">
+            <img src="assets/menu/icon_crown.svg" alt="">
+            <span class="js-vip-level">未开通</span>
+          </div>
+          <p class="mypage-profile-email">shugenpu2209@gmail.com</p>
+        </div>
+        <button type="button" class="mypage-logout-btn" id="mypageLogoutBtn" data-i18n="logout">退出登录</button>
+      </section>
+
+      <section class="mypage-card mypage-card-vip" id="mypageVipCard" aria-labelledby="mypageVipTitle">
+        <div class="mypage-card-head">
+          <h2 class="mypage-card-title" id="mypageVipTitle" data-i18n="vipMember">VIP 会员</h2>
+          <p class="mypage-vip-expire" data-i18n="vipExpireNone">暂未开通</p>
+        </div>
+        <div class="mypage-vip-row">
+          <div class="mypage-vip-level" id="mypageVipLevel">
+            <img src="assets/menu/icon_crown.svg" alt="">
+            <span class="js-vip-level">未开通</span>
+          </div>
+          <p class="mypage-vip-spent" id="mypageVipSpent">累计充值 ¥0</p>
+          <div class="mypage-vip-ladder">
+            <div class="mypage-vip-bar" aria-hidden="true"><span id="mypageVipBar"></span></div>
+            <ol class="mypage-vip-track" aria-label="VIP 等级" data-i18n-aria="vipLevelAria">
+              <li data-tier="bronze">
+                <span class="mypage-vip-dot" aria-hidden="true"></span>
+                <span class="mypage-vip-tier-name" data-i18n="tierBronze">青铜</span>
+                <span class="mypage-vip-tier-min">≥ ¥8</span>
+              </li>
+              <li data-tier="silver">
+                <span class="mypage-vip-dot" aria-hidden="true"></span>
+                <span class="mypage-vip-tier-name" data-i18n="tierSilver">白银</span>
+                <span class="mypage-vip-tier-min">≥ ¥30</span>
+              </li>
+              <li data-tier="gold">
+                <span class="mypage-vip-dot" aria-hidden="true"></span>
+                <span class="mypage-vip-tier-name" data-i18n="tierGold">黄金</span>
+                <span class="mypage-vip-tier-min">≥ ¥78</span>
+              </li>
+              <li data-tier="platinum">
+                <span class="mypage-vip-dot" aria-hidden="true"></span>
+                <span class="mypage-vip-tier-name" data-i18n="tierPlatinum">铂金</span>
+                <span class="mypage-vip-tier-min">≥ ¥260</span>
+              </li>
+              <li data-tier="diamond">
+                <span class="mypage-vip-dot" aria-hidden="true"></span>
+                <span class="mypage-vip-tier-name" data-i18n="tierDiamond">钻石</span>
+                <span class="mypage-vip-tier-min">≥ ¥520</span>
+              </li>
+            </ol>
+          </div>
+          <p class="mypage-vip-progress" id="mypageVipProgress"></p>
+        </div>
+
+        <div class="mypage-pack" id="mypageVipPack">
+          <p class="mypage-pack-label" data-i18n="rechargeVip">充值 VIP</p>
+          <div class="mypage-pack-list" role="list">
+            <button type="button" class="mypage-pack-item" data-vip="week" data-price="8">
+              <span class="mypage-pack-name" data-i18n="packWeek">一周</span>
+              <span class="mypage-pack-days" data-i18n="days7">7 天</span>
+              <span class="mypage-pack-price">¥8</span>
+            </button>
+            <button type="button" class="mypage-pack-item is-hot" data-vip="month" data-price="30">
+              <span class="mypage-pack-name" data-i18n="packMonth">一月</span>
+              <span class="mypage-pack-days" data-i18n="days30">30 天</span>
+              <span class="mypage-pack-price">¥30</span>
+            </button>
+            <button type="button" class="mypage-pack-item" data-vip="quarter" data-price="78">
+              <span class="mypage-pack-name" data-i18n="packQuarter">3月</span>
+              <span class="mypage-pack-days" data-i18n="days90">90 天</span>
+              <span class="mypage-pack-price">¥78</span>
+            </button>
+            <button type="button" class="mypage-pack-item" data-vip="year" data-price="260">
+              <span class="mypage-pack-name" data-i18n="packYear">一年</span>
+              <span class="mypage-pack-days" data-i18n="days365">365 天</span>
+              <span class="mypage-pack-price">¥260</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <nav class="mypage-shortcuts" aria-label="快捷入口" data-i18n-aria="shortcutsAria">
+        <a href="bookshelf.html" class="mypage-shortcut">
+          <img src="assets/menu/icon_book.svg" alt="">
+          <span data-i18n="myShelf">我的书架</span>
+        </a>
+        <a href="bookshelf.html#favorites" class="mypage-shortcut">
+          <img src="assets/menu/icon_user.svg" alt="">
+          <span data-i18n="myFavorites">我的收藏</span>
+        </a>
+        <a href="bookshelf.html#likes" class="mypage-shortcut">
+          <img src="assets/menu/icon_crown.svg" alt="">
+          <span data-i18n="vipSub">我喜欢的</span>
+        </a>
+        <a href="reader.html" class="mypage-shortcut">
+          <img src="assets/menu/icon_vip.svg" alt="">
+          <span data-i18n="keepReading">继续阅读</span>
+        </a>
+      </nav>
+
+      <section class="mypage-panel">
+        <div class="mypage-tabs" role="tablist" aria-label="账户内容" data-i18n-aria="accountContentAria">
+          <button type="button" class="mypage-tab is-active" role="tab" aria-selected="true" aria-controls="mypagePanelOrders" id="mypageTabOrders" data-panel="orders" data-i18n="orders">会员开通记录</button>
+          <button type="button" class="mypage-tab" role="tab" aria-selected="false" aria-controls="mypagePanelSettings" id="mypageTabSettings" data-panel="settings" data-i18n="settings">设置</button>
+        </div>
+
+        <div class="mypage-panel-body" id="mypagePanelOrders" role="tabpanel" aria-labelledby="mypageTabOrders">
+          <div class="mypage-history-list" id="mypageHistoryList"></div>
+        </div>
+
+        <div class="mypage-panel-body" id="mypagePanelSettings" role="tabpanel" aria-labelledby="mypageTabSettings" hidden>
+          <div class="mypage-settings">
+            <label class="mypage-setting">
+              <span class="mypage-setting-text">
+                <strong data-i18n="nsfwContent">NSFW 内容</strong>
+                <small data-i18n="nsfwHint">与顶部开关同步，开启后显示成人向作品</small>
+              </span>
+              <input type="checkbox" id="mypageNsfwSetting" class="mypage-switch-input">
+              <span class="mypage-switch" aria-hidden="true"></span>
+            </label>
+            <label class="mypage-setting">
+              <span class="mypage-setting-text">
+                <strong data-i18n="notify">更新通知</strong>
+                <small data-i18n="notifyHint">收藏作品有新章节时提醒</small>
+              </span>
+              <input type="checkbox" id="mypageNotifySetting" class="mypage-switch-input" checked>
+              <span class="mypage-switch" aria-hidden="true"></span>
+            </label>
+          </div>
+          <section class="mypage-account">
+            <button type="button" class="mypage-account-btn" id="mypageDeleteBtn" data-i18n="deleteAccount">注销账号</button>
+          </section>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="mypage-modal" id="mypagePayModal" aria-hidden="true">
+    <div class="mypage-pay-dialog" role="dialog" aria-modal="true" aria-labelledby="mypagePayTitle">
+      <h2 class="mypage-pay-title" id="mypagePayTitle" data-i18n="confirmPay">确认充值</h2>
+      <p class="mypage-pay-plan" id="mypagePayPlan">VIP 一月 · 30 天</p>
+      <p class="mypage-pay-amount" id="mypagePayAmount">¥30</p>
+
+      <p class="mypage-pay-label" data-i18n="payMethod">充值方式</p>
+      <div class="mypage-pay-methods" role="radiogroup" aria-label="充值方式" data-i18n-aria="payMethod">
+        <button type="button" class="mypage-pay-method is-active" role="radio" aria-checked="true" data-pay="wechat">
+          <span class="mypage-pay-method-icon is-wechat" aria-hidden="true" data-i18n="wechatShort">微</span>
+          <span class="mypage-pay-method-text">
+            <strong data-i18n="wechatPay">微信支付</strong>
+            <small data-i18n="wechatPayHint">微信钱包安全支付</small>
+          </span>
+        </button>
+        <button type="button" class="mypage-pay-method" role="radio" aria-checked="false" data-pay="alipay">
+          <span class="mypage-pay-method-icon is-alipay" aria-hidden="true" data-i18n="alipayShort">支</span>
+          <span class="mypage-pay-method-text">
+            <strong data-i18n="alipay">支付宝</strong>
+            <small data-i18n="alipayHint">支付宝账号快捷支付</small>
+          </span>
+        </button>
+      </div>
+
+      <div class="mypage-dialog-btns">
+        <button type="button" class="mypage-dialog-cancel" id="mypagePayCancel" data-i18n="cancel">取消</button>
+        <button type="button" class="mypage-dialog-confirm" id="mypagePayConfirm" data-i18n="payNow">确认支付</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mypage-modal" id="mypageModal" aria-hidden="true">
+    <div class="mypage-dialog" role="dialog" aria-modal="true" aria-labelledby="mypageModalTitle">
+      <p class="mypage-dialog-message" id="mypageModalTitle"></p>
+      <div class="mypage-dialog-btns">
+        <button type="button" class="mypage-dialog-cancel" id="mypageModalCancel" data-i18n="cancel">取消</button>
+        <button type="button" class="mypage-dialog-confirm" id="mypageModalConfirm" data-i18n="confirm">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mypage-toast" id="mypageToast" role="status" aria-live="polite"></div>
+
+  <script src="js/chrome.js?v=13" data-chrome="foot"></script>
+
+  <script src="js/shared.js?v=32"></script>
+  <script src="js/main.js?v=42"></script>
+  <script src="js/mypage.js?v=5"></script>
+</body>
+</html>

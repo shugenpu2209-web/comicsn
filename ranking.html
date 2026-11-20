@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>排行 - COMICSN</title>
+  <meta name="description" content="COMICSN 排行榜 - 漫画、小说、动画的周榜、月榜、季度榜、年榜">
+  <meta name="theme-color" content="#292929">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=47">
+  <link rel="stylesheet" href="css/ranking.css?v=6">
+</head>
+<body data-i18n-doc="docRank">
+  <script src="js/chrome.js?v=13" data-chrome="head"></script>
+  <main class="ranking-page">
+    <div class="ranking-toolbar">
+      <div class="ranking-types" role="tablist" aria-label="排行榜分类" data-i18n-aria="rankAria">
+        <button type="button" class="ranking-type is-active" role="tab" aria-selected="true" data-type="manga" data-i18n="navManga">漫画</button>
+        <button type="button" class="ranking-type" role="tab" aria-selected="false" data-type="novel" data-i18n="navNovel">小说</button>
+        <button type="button" class="ranking-type" role="tab" aria-selected="false" data-type="anime" data-i18n="navAnime">动画</button>
+      </div>
+      <div class="ranking-period" id="rankingPeriod">
+        <button type="button" class="ranking-period-btn" id="rankingPeriodBtn" aria-haspopup="listbox" aria-expanded="false" aria-label="排行榜周期" data-i18n-aria="periodAria">
+          <svg class="ranking-period-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+            <path d="M8 6v12M8 6l-3 3M8 6l3 3M16 18V6M16 18l-3-3M16 18l3-3"/>
+          </svg>
+          <span id="rankingPeriodLabel" data-i18n="periodWeekly">周榜</span>
+          <svg class="ranking-period-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="ranking-period-menu" role="listbox" aria-label="排行榜周期" data-i18n-aria="periodAria">
+          <button type="button" class="ranking-period-option is-active" role="option" data-sort="weekly" data-i18n="periodWeekly">周榜</button>
+          <button type="button" class="ranking-period-option" role="option" data-sort="monthly" data-i18n="periodMonthly">月榜</button>
+          <button type="button" class="ranking-period-option" role="option" data-sort="quarterly" data-i18n="periodQuarterly">季度榜</button>
+          <button type="button" class="ranking-period-option" role="option" data-sort="yearly" data-i18n="periodYearly">年榜</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ranking-grid" id="rankingGrid"></div>
+  </main>
+
+  <script src="js/chrome.js?v=13" data-chrome="foot"></script>
+
+  <script src="js/shared.js?v=32"></script>
+  <script src="js/main.js?v=42"></script>
+  <script src="js/ranking.js?v=14"></script>
+</body>
+</html>

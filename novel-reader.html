@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>阅读 - COMICSN</title>
+  <meta name="description" content="COMICSN 小说在线阅读">
+  <meta name="theme-color" content="#0e0e0f">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=47">
+  <link rel="stylesheet" href="css/reader.css?v=3">
+  <link rel="stylesheet" href="css/novel-reader.css?v=3">
+</head>
+<body class="reader-page novel-reader-page">
+  <div class="reader is-chrome-on is-theme-night" id="reader">
+    <header class="reader-top">
+      <a href="novel-detail.html" class="reader-icon-btn" id="novelReaderBack" aria-label="返回作品页">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </a>
+      <div class="reader-heading">
+        <h1 class="reader-comic" id="novelReaderTitle">小说阅读</h1>
+        <p class="reader-episode" id="readerEpisodeLabel">第1章</p>
+      </div>
+      <div class="reader-top-actions">
+        <button type="button" class="reader-icon-btn" id="readerBookmarkBtn" aria-label="收藏" aria-pressed="false" data-bookmark-kind="novel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+        </button>
+        <button type="button" class="reader-icon-btn" id="readerSettingsBtn" aria-label="阅读设置">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l-.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="reader-progress" aria-hidden="true">
+      <span id="readerProgressBar"></span>
+    </div>
+
+    <main class="reader-stage nr-stage is-font-md" id="readerStage" tabindex="0"></main>
+
+    <footer class="reader-bottom">
+      <button type="button" class="reader-nav-btn" id="readerPrev">上一章</button>
+      <button type="button" class="reader-nav-btn reader-nav-list" id="readerListBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
+        </svg>
+        目录
+      </button>
+      <button type="button" class="reader-nav-btn is-primary" id="readerNext">下一章</button>
+    </footer>
+  </div>
+
+  <div class="reader-sheet" id="readerListSheet" aria-hidden="true">
+    <button type="button" class="reader-sheet-backdrop" data-close-sheet></button>
+    <div class="reader-sheet-panel" role="dialog" aria-labelledby="readerListTitle">
+      <div class="reader-sheet-head">
+        <h2 id="readerListTitle">目录</h2>
+        <button type="button" class="reader-icon-btn" data-close-sheet aria-label="关闭">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="reader-episode-list nr-chapter-list" id="readerEpisodeList"></div>
+    </div>
+  </div>
+
+  <div class="reader-sheet" id="readerSettingsSheet" aria-hidden="true">
+    <button type="button" class="reader-sheet-backdrop" data-close-sheet></button>
+    <div class="reader-sheet-panel" role="dialog" aria-labelledby="readerSettingsTitle">
+      <div class="reader-sheet-head">
+        <h2 id="readerSettingsTitle">阅读设置</h2>
+        <button type="button" class="reader-icon-btn" data-close-sheet aria-label="关闭">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="reader-settings">
+        <div class="reader-setting">
+          <p class="reader-setting-label">字体大小</p>
+          <div class="reader-seg" role="radiogroup" aria-label="字体大小">
+            <button type="button" class="reader-seg-btn" data-font="sm">小</button>
+            <button type="button" class="reader-seg-btn is-on" data-font="md">中</button>
+            <button type="button" class="reader-seg-btn" data-font="lg">大</button>
+          </div>
+        </div>
+        <div class="reader-setting">
+          <p class="reader-setting-label">背景</p>
+          <div class="reader-seg" role="radiogroup" aria-label="背景">
+            <button type="button" class="reader-seg-btn is-on" data-theme="night">夜间</button>
+            <button type="button" class="reader-seg-btn" data-theme="paper">护眼</button>
+            <button type="button" class="reader-seg-btn" data-theme="day">日间</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/shared.js?v=32"></script>
+  <script src="js/novel-reader.js?v=7"></script>
+</body>
+</html>

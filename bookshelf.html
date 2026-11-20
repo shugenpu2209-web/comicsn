@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>书架 - COMICSN</title>
+  <meta name="description" content="COMICSN 我的书架 - 历史浏览、收藏与喜欢">
+  <meta name="theme-color" content="#292929">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=47">
+  <link rel="stylesheet" href="css/bookshelf.css?v=5">
+</head>
+<body data-i18n-doc="docShelf">
+  <script src="js/chrome.js?v=13" data-chrome="head"></script>
+  <main class="bookshelf-page">
+    <div class="bookshelf-tabs" role="tablist" aria-label="书架分类" data-i18n-aria="shelfAria">
+      <button type="button" class="bookshelf-tab is-active" role="tab" aria-selected="true" data-tab="recent" data-i18n="shelfRecent">历史浏览</button>
+      <button type="button" class="bookshelf-tab" role="tab" aria-selected="false" data-tab="favorites" data-i18n="shelfFav">我的收藏</button>
+      <button type="button" class="bookshelf-tab" role="tab" aria-selected="false" data-tab="likes" data-i18n="shelfVip">我喜欢的</button>
+
+      <div class="bookshelf-toolbar-right">
+        <div class="bookshelf-toolbar-normal">
+          <div class="bookshelf-search">
+            <input type="search" class="bookshelf-search-input" id="bookshelfSearchInput" placeholder="搜索作品" data-i18n-placeholder="searchWorks" autocomplete="off">
+            <button type="button" class="bookshelf-search-btn" aria-label="搜索" data-i18n-aria="search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/></svg>
+            </button>
+          </div>
+
+          <button type="button" class="bookshelf-delete-btn" id="bookshelfEditBtn" aria-label="删除" data-i18n-aria="deleteAria">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          </button>
+        </div>
+
+        <div class="bookshelf-toolbar-edit" id="bookshelfToolbarEdit" hidden>
+          <div class="bookshelf-edit-actions">
+            <button type="button" class="bookshelf-edit-close" id="bookshelfEditClose" aria-label="取消" data-i18n-aria="cancel">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+            <button type="button" class="bookshelf-edit-delete" id="bookshelfEditDelete" aria-label="删除所选" data-i18n-aria="deleteSelectedAria">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bookshelf-toolbar">
+      <div class="bookshelf-sort" id="bookshelfSort">
+        <button type="button" class="bookshelf-sort-btn" id="bookshelfSortBtn" aria-haspopup="listbox" aria-expanded="false">
+          <span id="bookshelfSortLabel" data-i18n="catAll">全部</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="bookshelf-sort-menu" role="listbox" aria-label="作品类型" data-i18n-aria="workTypeAria">
+          <button type="button" class="bookshelf-sort-option is-active" role="option" data-sort="all" data-i18n="catAll">全部</button>
+          <button type="button" class="bookshelf-sort-option" role="option" data-sort="comic" data-i18n="navManga">漫画</button>
+          <button type="button" class="bookshelf-sort-option" role="option" data-sort="novel" data-i18n="navNovel">小说</button>
+          <button type="button" class="bookshelf-sort-option" role="option" data-sort="anime" data-i18n="navAnime">动画</button>
+        </div>
+      </div>
+      <p class="bookshelf-select-count" id="bookshelfSelectCount" hidden>您选择了“0”系列</p>
+    </div>
+
+    <div class="bookshelf-grid" id="bookshelfGrid"></div>
+  </main>
+
+  <div class="bookshelf-delete-modal" id="bookshelfDeleteModal" aria-hidden="true">
+    <div class="bookshelf-delete-dialog" role="dialog" aria-modal="true" aria-labelledby="bookshelfDeleteTitle">
+      <p class="bookshelf-delete-message" id="bookshelfDeleteTitle" data-i18n="deleteSelected">是否删除所选书籍？</p>
+      <div class="bookshelf-delete-btns">
+        <button type="button" class="bookshelf-delete-cancel" id="bookshelfDeleteCancel" data-i18n="cancel">取消</button>
+        <button type="button" class="bookshelf-delete-confirm" id="bookshelfDeleteConfirm" data-i18n="confirm">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/chrome.js?v=13" data-chrome="foot"></script>
+
+  <script src="js/shared.js?v=32"></script>
+  <script src="js/main.js?v=42"></script>
+  <script src="js/bookshelf.js?v=15"></script>
+</body>
+</html>

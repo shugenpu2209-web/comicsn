@@ -1,0 +1,502 @@
+/* ===== Comic reader ===== */
+.reader-page {
+  background: #0e0e0f;
+  min-height: 100dvh;
+}
+
+.reader {
+  --reader-top-h: 56px;
+  --reader-bottom-h: 64px;
+  min-height: 100dvh;
+}
+
+.reader-top,
+.reader-bottom {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: max(12px, env(safe-area-inset-left));
+  padding-right: max(12px, env(safe-area-inset-right));
+  background: linear-gradient(180deg, rgba(14, 14, 15, 0.96), rgba(14, 14, 15, 0.88));
+  backdrop-filter: blur(12px);
+  transition: transform 0.28s ease;
+}
+
+.reader-top {
+  top: 0;
+  min-height: var(--reader-top-h);
+  padding-top: env(safe-area-inset-top);
+  transform: translateY(-110%);
+}
+
+.reader-bottom {
+  bottom: 0;
+  min-height: var(--reader-bottom-h);
+  justify-content: space-between;
+  padding-bottom: env(safe-area-inset-bottom);
+  background: linear-gradient(0deg, rgba(14, 14, 15, 0.96), rgba(14, 14, 15, 0.88));
+  transform: translateY(110%);
+}
+
+.reader.is-chrome-on .reader-top,
+.reader.is-chrome-on .reader-bottom {
+  transform: translateY(0);
+}
+
+.reader-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+}
+
+.reader-top-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.reader-icon-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.reader-icon-btn.is-on {
+  color: #fff;
+}
+
+.reader-icon-btn.is-on svg {
+  fill: currentColor;
+}
+
+.reader-icon-btn svg {
+  width: 22px;
+  height: 22px;
+  pointer-events: none;
+}
+
+.reader-heading {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+
+.reader-comic {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.reader-episode {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.reader-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 35;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+.reader.is-chrome-on .reader-progress {
+  top: calc(var(--reader-top-h) + env(safe-area-inset-top));
+}
+
+.reader-progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent-red);
+}
+
+.reader-stage {
+  width: min(100%, 640px);
+  margin: 0 auto;
+  padding: 8px 0 96px;
+  outline: none;
+  filter: brightness(var(--reader-brightness, 1));
+}
+
+.reader-stage.is-narrow {
+  width: min(100%, 480px);
+}
+
+.reader-stage.is-regular {
+  width: min(100%, 640px);
+}
+
+.reader-stage.is-wide {
+  width: min(100%, 860px);
+}
+
+.reader-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 56vh;
+  padding: 28px 20px 32px;
+  background:
+    linear-gradient(180deg, rgba(14, 14, 15, 0.15), rgba(14, 14, 15, 0.92)),
+    url("../assets/comics/thumb-2.webp") center 18% / cover no-repeat;
+}
+
+.reader-cover-kicker {
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: #f3c14a;
+  font-weight: 600;
+}
+
+.reader-cover h2 {
+  margin-top: 8px;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.reader-cover p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.reader-cut {
+  display: block;
+  width: 100%;
+  background: #161617;
+}
+
+.reader-cut img {
+  width: 100%;
+  height: auto;
+  min-height: 280px;
+  max-height: 92vh;
+  object-fit: cover;
+}
+
+.reader-caption {
+  padding: 28px 22px;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #d4d4d4;
+  text-align: center;
+}
+
+.reader-balloon {
+  margin: 0;
+  padding: 18px 22px 8px;
+}
+
+.reader-balloon figcaption {
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #f3c14a;
+}
+
+.reader-balloon blockquote {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: 4px 16px 16px 16px;
+  background: #232426;
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+.reader-balloon.is-other figcaption {
+  text-align: right;
+  color: #9bdcff;
+}
+
+.reader-balloon.is-other blockquote {
+  border-radius: 16px 4px 16px 16px;
+  background: #2a2430;
+}
+
+.reader-end,
+.reader-lock {
+  margin: 8px 16px 0;
+  padding: 28px 20px 24px;
+  border-radius: 12px;
+  text-align: center;
+  background: #1a1b1d;
+  border: 1px solid var(--border-primary);
+}
+
+.reader-end h2,
+.reader-lock h2 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.reader-end p,
+.reader-lock p {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.reader-end-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.reader-end-btn,
+.reader-lock-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.reader-end-btn.is-primary,
+.reader-lock-btn {
+  background: var(--accent-red);
+  color: #fff;
+}
+
+.reader-end-btn.is-ghost {
+  background: #2d2e30;
+  color: var(--text-primary);
+}
+
+.reader-lock {
+  margin-top: 12px;
+  padding-top: 36px;
+  padding-bottom: 32px;
+}
+
+.reader-lock-kicker {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #f3c14a;
+}
+
+.reader-lock h2 {
+  margin-top: 10px;
+}
+
+.reader-lock-btn {
+  margin: 18px auto 0;
+  width: 100%;
+  max-width: 240px;
+}
+
+.reader-bottom .reader-nav-btn {
+  flex: 1;
+  min-height: 40px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.reader-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.reader-nav-btn.is-primary {
+  background: var(--accent-red);
+  color: #fff;
+}
+
+.reader-nav-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  max-width: 120px;
+}
+
+.reader-nav-list svg {
+  width: 16px;
+  height: 16px;
+}
+
+.reader-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+}
+
+.reader-sheet.is-open {
+  display: block;
+}
+
+.reader-sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.reader-sheet-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: min(78dvh, 640px);
+  padding: 8px 16px calc(20px + env(safe-area-inset-bottom));
+  border-radius: 16px 16px 0 0;
+  background: #222326;
+  overflow: auto;
+}
+
+.reader-sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0 12px;
+}
+
+.reader-sheet-head h2 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.reader-episode-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.reader-ep-item {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  background: #1a1b1d;
+  text-align: left;
+}
+
+.reader-ep-item.is-current {
+  outline: 1px solid var(--accent-red);
+}
+
+.reader-ep-item img {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.reader-ep-item strong {
+  display: block;
+  font-size: 13px;
+}
+
+.reader-ep-item small {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.reader-ep-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.reader-ep-badge.is-free {
+  color: #4ade80;
+}
+
+.reader-ep-badge.is-vip {
+  color: #f3c14a;
+}
+
+.reader-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 8px 4px 12px;
+}
+
+.reader-setting-label {
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.reader-seg {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.reader-seg-btn {
+  min-height: 40px;
+  border-radius: 6px;
+  background: #1a1b1d;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.reader-seg-btn.is-on {
+  background: var(--accent-red);
+  color: #fff;
+}
+
+.reader-range {
+  width: 100%;
+  accent-color: var(--accent-red);
+}
+
+@media (min-width: 768px) {
+  .reader-sheet-panel {
+    left: auto;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: min(380px, 100%);
+    max-height: none;
+    border-radius: 0;
+  }
+
+  .reader-cover h2 {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .reader-cover {
+    min-height: 48vh;
+    padding: 22px 16px 24px;
+  }
+
+  .reader-cover h2 {
+    font-size: 24px;
+  }
+
+  .reader-nav-list {
+    max-width: 96px;
+  }
+}

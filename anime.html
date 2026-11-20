@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>动画 - COMICSN</title>
+  <meta name="description" content="COMICSN 动画频道 - 观看漫画改编动画">
+  <meta name="theme-color" content="#292929">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=47">
+  <link rel="stylesheet" href="css/anime.css?v=40">
+</head>
+<body data-i18n-doc="docAnime">
+  <script src="js/chrome.js?v=13" data-chrome="head"></script>
+  <main class="anime-page">
+    <section class="anime-section" aria-labelledby="animeRecoTitle">
+      <h2 class="anime-section-title" id="animeRecoTitle" data-i18n="weekReco">本周推荐</h2>
+      <div class="anime-recommend" id="animeRecommend"></div>
+    </section>
+
+    <div class="anime-toolbar">
+      <div class="anime-filters" role="tablist" aria-label="动画筛选" data-i18n-aria="animeFilter">
+        <button type="button" class="anime-filter is-active" role="tab" aria-selected="true" data-tab="all" data-i18n="catAll">全部</button>
+        <button type="button" class="anime-filter" role="tab" aria-selected="false" data-tab="updating" data-i18n="tabUpdating">连载中</button>
+        <button type="button" class="anime-filter" role="tab" aria-selected="false" data-tab="ended" data-i18n="tabEnded">已完结</button>
+        <button type="button" class="anime-filter" role="tab" aria-selected="false" data-tab="vip" data-i18n="tabVip">VIP专属</button>
+        <button type="button" class="anime-filter" role="tab" aria-selected="false" data-tab="free" data-i18n="tabFree">免费</button>
+      </div>
+      <div class="anime-sort" id="animeSort">
+        <button type="button" class="anime-sort-btn" id="animeSortBtn" aria-haspopup="listbox" aria-expanded="false">
+          <svg class="anime-sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+            <path d="M8 6v12M8 6l-3 3M8 6l3 3M16 18V6M16 18l-3-3M16 18l3-3"/>
+          </svg>
+          <span id="animeSortLabel" data-i18n="sortPop">按人气排序</span>
+          <svg class="anime-sort-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="anime-sort-menu" role="listbox" aria-label="排序方式" data-i18n-aria="sortAria">
+          <button type="button" class="anime-sort-option is-active" role="option" data-sort="popularity" data-i18n="sortPop">按人气排序</button>
+          <button type="button" class="anime-sort-option" role="option" data-sort="views" data-i18n="sortPlays">播放量最高</button>
+          <button type="button" class="anime-sort-option" role="option" data-sort="latest" data-i18n="sortLatest">最新</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="anime-grid" id="animeGrid"></div>
+  </main>
+
+  <script src="js/chrome.js?v=13" data-chrome="foot"></script>
+
+  <script src="js/shared.js?v=32"></script>
+  <script src="js/main.js?v=42"></script>
+  <script src="js/anime.js?v=17"></script>
+</body>
+</html>

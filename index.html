@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <title>Toptoon: Stories you never knew you needed.</title>
+  <meta name="description" content="The official Toptoon platform. Enter a whole new way to read Web comics.">
+  <meta name="theme-color" content="#292929">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=47">
+</head>
+<body data-i18n-doc="docHome">
+  <script src="js/chrome.js?v=13" data-chrome="head"></script>
+  <section class="banner-section">
+    <div class="banner-area">
+      <div class="banner-carousel" id="bannerCarousel">
+        <div class="banner-track" id="bannerTrack">
+          <div class="banner-slide">
+            <img src="assets/1.webp" alt="Banner 1">
+          </div>
+          <div class="banner-slide">
+            <img src="assets/2.webp" alt="Banner 2">
+          </div>
+          <div class="banner-slide">
+            <img src="assets/3.webp" alt="Banner 3">
+          </div>
+          <div class="banner-slide">
+            <img src="assets/4.webp" alt="Banner 4">
+          </div>
+          <div class="banner-slide">
+            <img src="assets/5.webp" alt="Banner 5">
+          </div>
+          <div class="banner-slide">
+            <img src="assets/6.webp" alt="Banner 6">
+          </div>
+        </div>
+        <div class="banner-pagination" id="bannerPagination">
+          <button type="button" class="dot active" aria-label="第 1 组"></button>
+          <button type="button" class="dot" aria-label="第 2 组"></button>
+        </div>
+      </div>
+      <div class="banner-arrows">
+        <button class="banner-arrow banner-arrow-prev" id="bannerPrev" aria-label="Previous" data-i18n-aria="bannerPrev">
+          <img src="assets/icons/icon_hd_arrow.png" alt="">
+        </button>
+        <button class="banner-arrow banner-arrow-next" id="bannerNext" aria-label="Next" data-i18n-aria="bannerNext">
+          <img src="assets/icons/icon_hd_arrow.png" alt="">
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <main class="main-content container">
+    <section class="notice-bar" aria-label="最新公告" data-i18n-aria="noticeAria">
+      <div class="notice-bar-inner">
+        <span class="notice-bar-label" data-i18n="noticeLabel">公告</span>
+        <div class="notice-bar-viewport">
+          <div class="notice-bar-track" id="noticeTrack"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="comic-section">
+      <h2 class="section-header">
+        <span class="section-title" data-i18n="rankManga">📖 漫画排行</span>
+        <a href="ranking.html?type=manga" class="see-all" data-i18n="seeAll">See All</a>
+      </h2>
+      <div class="comic-grid-6">
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-1.webp" alt="Evolution: Road to Space Monster">
+            <span class="rank-num">1</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="evolution">Evolution: Road to Space Monster</span>
+              <span class="badge-up" aria-hidden="true">H</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ep.101</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 36K</span>
+            </div>
+          </div>
+        </a>
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-2.webp" alt="Bully's love story">
+            <span class="rank-num">2</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="bully">Bully's love story</span>
+              <span class="badge-up" aria-hidden="true">H</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ep.24</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 1.7K</span>
+            </div>
+          </div>
+        </a>
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-3.webp" alt="Muscle Girls Colosseum">
+            <span class="rank-num">3</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="muscle">Muscle Girls Colosseum</span>
+              <span class="badge-up" aria-hidden="true">H</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ep.29</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 2.7K</span>
+            </div>
+          </div>
+        </a>
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-4.webp" alt="Angel and Devil">
+            <span class="rank-num">4</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="angel">Angel and Devil</span>
+              <span class="badge-up" aria-hidden="true">H</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ep.25</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 1K</span>
+            </div>
+          </div>
+        </a>
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-5.webp" alt="The Witch's Child">
+            <span class="rank-num">5</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="witch">The Witch's Child</span>
+              <span class="badge-up" aria-hidden="true">H</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ep.33</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 497</span>
+            </div>
+          </div>
+        </a>
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-6.webp" alt="Magical Girl Chronicles ABC">
+            <span class="rank-num">6</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="magical">Magical Girl Chronicles ABC</span>
+              <span class="badge-up" aria-hidden="true">H</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ep.27</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 450</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="home-ad">
+      <a href="ad.html" class="home-ad-banner">
+        <img src="assets/home_ad.png" alt="先选你喜欢的类型吧" data-i18n-alt="adTitle">
+      </a>
+    </section>
+
+    <section class="comic-section">
+      <h2 class="section-header">
+        <span class="section-title" data-i18n="rankNovel">✨ 小说排行</span>
+        <a href="ranking.html?type=novel" class="see-all" data-i18n="seeAll">See All</a>
+      </h2>
+      <div class="comic-grid-6">
+        <a href="novel.html" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-2.webp" alt="She's Too Much for Me">
+            <span class="rank-num">1</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="too-much">She's Too Much for Me</span>
+              <span class="badge-up" aria-hidden="true">H</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ch.88</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 20K</span>
+            </div>
+          </div>
+        </a>
+        <a href="novel.html" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-4.webp" alt="Drawing Romance">
+            <span class="rank-num">2</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="drawing">Drawing Romance</span>
+              <span class="badge-up" aria-hidden="true">H</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ch.62</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 15K</span>
+            </div>
+          </div>
+        </a>
+        <a href="novel.html" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-5.webp" alt="I'm a Mom">
+            <span class="rank-num">3</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="mom">I'm a Mom</span>
+              <span class="badge-up" aria-hidden="true">H</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ch.45</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 12K</span>
+            </div>
+          </div>
+        </a>
+        <a href="novel.html" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-3.webp" alt="Vengeance">
+            <span class="rank-num">4</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="vengeance">Vengeance</span>
+              <span class="badge-up" aria-hidden="true">H</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ch.51</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 9.8K</span>
+            </div>
+          </div>
+        </a>
+        <a href="novel.html" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-6.webp" alt="In the Same Class With My Childhood Friend and My Ex-girlfriend">
+            <span class="rank-num">5</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="classmate">In the Same Class With My Childhood Friend and My Ex-girlfriend</span>
+              <span class="badge-up" aria-hidden="true">H</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ch.39</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 8.2K</span>
+            </div>
+          </div>
+        </a>
+        <a href="novel.html" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-1.webp" alt="Evolution: Road to Space Monster">
+            <span class="rank-num">6</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="evolution">Evolution: Road to Space Monster</span>
+              <span class="badge-up" aria-hidden="true">H</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ch.101</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 6.1K</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="comic-section">
+      <h2 class="section-header">
+        <span class="section-title" data-i18n="rankAnime">🌠 动画排行</span>
+        <a href="ranking.html?type=anime" class="see-all" data-i18n="seeAll">See All</a>
+      </h2>
+      <div class="comic-grid-6">
+        <a href="anime-watch.html?id=mom" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-5.webp" alt="I'm a Mom">
+            <span class="rank-num">1</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="mom">I'm a Mom</span>
+              <span class="badge-up" aria-hidden="true">H</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ep.7</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 21K</span>
+            </div>
+          </div>
+        </a>
+        <a href="anime-watch.html?id=asteroid" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-2.webp" alt="The Day an Asteroid Fell Into School">
+            <span class="rank-num">2</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="asteroid">The Day an Asteroid Fell Into School</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ep.5</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 12K</span>
+            </div>
+          </div>
+        </a>
+        <a href="anime-watch.html?id=evolution" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-1.webp" alt="Evolution: Road to Space Monster">
+            <span class="rank-num">3</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="evolution">Evolution: Road to Space Monster</span>
+              <span class="badge-up" aria-hidden="true">H</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ep.10</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 96K</span>
+            </div>
+          </div>
+        </a>
+        <a href="anime-watch.html?id=starry" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-4.webp" alt="Starry Walk in the Dark">
+            <span class="rank-num">4</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="starry">Starry Walk in the Dark</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ep.10</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 9.6K</span>
+            </div>
+          </div>
+        </a>
+        <a href="anime-watch.html?id=witch" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-3.webp" alt="White Hole">
+            <span class="rank-num">5</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="white-hole">White Hole</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ep.19</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 5.4K</span>
+            </div>
+          </div>
+        </a>
+        <a href="anime-watch.html?id=vengeance" class="comic-card">
+          <div class="comic-thumb">
+            <img src="assets/comics/thumb-6.webp" alt="Newlywed Zombies">
+            <span class="rank-num">6</span>
+          </div>
+          <div class="comic-info">
+            <div class="comic-title-row">
+              <span class="comic-title" data-title-id="zombie">Newlywed Zombies</span>
+            </div>
+            <div class="comic-meta">
+              <span class="ep">Ep.22</span>
+              <span class="views"><img src="assets/icons/ico_view.png" alt=""> 4.9K</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="home-ad">
+      <a href="ad.html" class="home-ad-banner">
+        <img src="assets/home_ad.png" alt="先选你喜欢的类型吧" data-i18n-alt="adTitle">
+      </a>
+    </section>
+
+    <section class="comic-section">
+      <h2 class="section-header">
+        <span class="section-title" data-i18n="completed">🎆 完结漫画</span>
+      </h2>
+      <div class="comic-grid-6">
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb"><img src="assets/comics/thumb-6.webp" alt="My Little Wooreongi"></div>
+          <div class="comic-info"><div class="comic-title-row"><span class="comic-title" data-title-id="yurong">My Little Wooreongi</span></div></div>
+        </a>
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb"><img src="assets/comics/thumb-3.webp" alt="I Don't Want to Be a Hero!"></div>
+          <div class="comic-info"><div class="comic-title-row"><span class="comic-title" data-title-id="no-hero">I Don't Want to Be a Hero!</span></div></div>
+        </a>
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb"><img src="assets/comics/thumb-2.webp" alt="In the Same Class With My Childhood Friend and My Ex-girlfriend"></div>
+          <div class="comic-info"><div class="comic-title-row"><span class="comic-title" data-title-id="classmate">In the Same Class With My Childhood Friend and My Ex-girlfriend</span></div></div>
+        </a>
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb"><img src="assets/comics/thumb-4.webp" alt="Dokkaebi Hunter"></div>
+          <div class="comic-info"><div class="comic-title-row"><span class="comic-title" data-title-id="hunter">Dokkaebi Hunter</span></div></div>
+        </a>
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb"><img src="assets/comics/thumb-1.webp" alt="Evolution: Road to Space Monster"></div>
+          <div class="comic-info"><div class="comic-title-row"><span class="comic-title" data-title-id="evolution">Evolution: Road to Space Monster</span></div></div>
+        </a>
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb"><img src="assets/comics/thumb-5.webp" alt="She's Too Much for Me"></div>
+          <div class="comic-info"><div class="comic-title-row"><span class="comic-title" data-title-id="too-much">She's Too Much for Me</span></div></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="comic-section">
+      <h2 class="section-header">
+        <span class="section-title" data-i18n="moreReco">🔆 其他推荐</span>
+      </h2>
+      <div class="comic-grid-6">
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb"><img src="assets/comics/thumb-2.webp" alt="She's Too Much for Me"></div>
+          <div class="comic-info"><div class="comic-title-row"><span class="comic-title" data-title-id="too-much">She's Too Much for Me</span></div></div>
+        </a>
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb"><img src="assets/comics/thumb-4.webp" alt="Drawing Romance"></div>
+          <div class="comic-info"><div class="comic-title-row"><span class="comic-title" data-title-id="drawing">Drawing Romance</span></div></div>
+        </a>
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb"><img src="assets/comics/thumb-3.webp" alt="Let's Have a Drink!"></div>
+          <div class="comic-info"><div class="comic-title-row"><span class="comic-title" data-title-id="drink">Let's Have a Drink!</span></div></div>
+        </a>
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb"><img src="assets/comics/thumb-6.webp" alt="Schoolboy vs The World"></div>
+          <div class="comic-info"><div class="comic-title-row"><span class="comic-title" data-title-id="boy-world">Schoolboy vs The World</span></div></div>
+        </a>
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb"><img src="assets/comics/thumb-5.webp" alt="In the Same Class With My Childhood Friend and My Ex-girlfriend"></div>
+          <div class="comic-info"><div class="comic-title-row"><span class="comic-title" data-title-id="classmate">In the Same Class With My Childhood Friend and My Ex-girlfriend</span></div></div>
+        </a>
+        <a href="comic.html" class="comic-card">
+          <div class="comic-thumb"><img src="assets/comics/thumb-1.webp" alt="Vengeance"></div>
+          <div class="comic-info"><div class="comic-title-row"><span class="comic-title" data-title-id="vengeance">Vengeance</span></div></div>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/chrome.js?v=13" data-chrome="foot"></script>
+
+  <script src="js/shared.js?v=32"></script>
+  <script src="js/main.js?v=42"></script>
+</body>
+</html>

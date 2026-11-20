@@ -1,0 +1,36 @@
+# Cloudflare / Wrangler local cache and account state
+.wrangler/
+.dev.vars
+.dev.vars.*
+.mf/
+
+# Dependencies and package caches
+node_modules/
+.npm/
+.yarn/
+.pnpm-store/
+.cache/
+.turbo/
+coverage/
+dist/
+
+# Temp and OS
+tmp/
+temp/
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Secrets and account keys
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.json
+id_rsa
+id_rsa.pub
