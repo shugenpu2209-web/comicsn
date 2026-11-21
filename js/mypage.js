@@ -305,10 +305,31 @@
       const tier = updateVipLevel(orders);
       const payName = payMethod === 'alipay' || payMethod === '支付宝' ? tt('alipay', '支付宝') : tt('wechatPay', '微信支付');
       const tierText = tier.key === 'none' ? '' : tt('currentTier', '，当前 {name}').replace('{name}', tier.name);
-      showToast(tt('paidVia', '已通过{pay}开通 VIP {plan}{tier}')
+      const message = tt('paidVia', '已通过{pay}开通 VIP {plan}{tier}')
         .replace('{pay}', payName)
         .replace('{plan}', plan.label)
-        .replace('{tier}', tierText));
+        .replace('{tier}', tierText);
+      const token = localStorage.getItem('comicsn-user-token');
+      const saved = token
+        ? fetch('/api/me/vip', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+          body: JSON.stringify(orders[0]),
+        }).then((res) => (res.ok ? res.json() : null)).then((data) => {
+          if (!data) return;
+          if (data.expireStamp) {
+            localStorage.setItem(VIP_EXPIRE_KEY, data.expireStamp);
+            renderExpire(data.expireStamp);
+          }
+          if (data.order) {
+            orders = [data.order].concat(orders.slice(1));
+            saveOrders(orders);
+            renderOrders(orders);
+            updateVipLevel(orders);
+          }
+        }).catch(() => {})
+        : Promise.resolve();
+      saved.then(() => showToast(message));
     }
 
     const payDialog = initPayDialog(completePay);
@@ -419,9 +440,18 @@
 
     document.getElementById('mypageDeleteBtn')?.addEventListener('click', () => {
       openModal(tt('deleteConfirm', '注销后书架、VIP 与会员开通记录将无法恢复。确定注销？'), tt('deleteAction', '注销'), () => {
+        const token = localStorage.getItem('comicsn-user-token');
+        localStorage.removeItem('comicsn-user-token');
         localStorage.removeItem(VIP_EXPIRE_KEY);
         localStorage.removeItem(VIP_ORDERS_KEY);
-        window.location.href = './';
+        const go = () => { window.location.href = './'; };
+        if (!token) {
+          go();
+          return;
+        }
+        fetch('/api/me', { method: 'DELETE', headers: { Authorization: 'Bearer ' + token } })
+          .catch(() => {})
+          .finally(go);
       });
     });
 

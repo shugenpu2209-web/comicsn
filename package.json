@@ -1,0 +1,12 @@
+{
+  "name": "comicsn",
+  "private": true,
+  "description": "COMICSN catalog site with a Node.js and SQLite backend",
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "node server/test-api.js"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

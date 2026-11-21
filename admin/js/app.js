@@ -421,14 +421,12 @@
       <div class="brand-mark" style="margin-bottom:14px">CS</div>
       <h1>漫画平台后台管理系统</h1>
       <p>独立部署 · RBAC 权限 · 与前台站点数据打通</p>
-      <div class="field"><label>账号</label><input name="username" autocomplete="username" value="admin"></div>
-      <div class="field"><label>密码</label><input name="password" type="password" autocomplete="current-password" value="admin123"></div>
+      <div class="field"><label>账号</label><input name="username" autocomplete="username"></div>
+      <div class="field"><label>密码</label><input name="password" type="password" autocomplete="current-password"></div>
       <div class="field"><label>验证码</label><div class="captcha-row"><input name="captcha" placeholder="计算结果"><button type="button" class="captcha-btn" id="capBtn">${captchaText()}</button></div></div>
       <div class="login-error" id="loginErr"></div>
       <button class="btn btn-primary btn-block" type="submit">登录</button>
-      <div class="login-accounts">演示账号（密码均为账号+123，超管为 admin123）<br>
-      <b>admin</b> 超管 · <b>content</b> 内容 · <b>review</b> 审核 · <b>ops</b> 运营<br>
-      <b>cs</b> 客服 · <b>finance</b> 财务 · <b>data</b> 数据 · <b>agent</b> 代理</div>
+      <div class="login-accounts">请使用管理员账号登录</div>
     </form></div>`;
     root.querySelector('#capBtn').onclick = () => {
       a = 4 + Math.floor(Math.random() * 6);
@@ -440,10 +438,17 @@
       const fd = new FormData(e.target);
       const err = root.querySelector('#loginErr');
       if (Number(fd.get('captcha')) !== a + b) { err.textContent = '验证码错误'; return; }
-      const res = S.login(String(fd.get('username') || '').trim(), String(fd.get('password') || ''));
-      if (!res.ok) { err.textContent = res.error; return; }
-      location.hash = '#/dashboard';
-      render();
+      const btn = e.target.querySelector('button[type="submit"]');
+      if (btn) btn.disabled = true;
+      Promise.resolve(S.login(String(fd.get('username') || '').trim(), String(fd.get('password') || ''))).then((res) => {
+        if (btn) btn.disabled = false;
+        if (!res || !res.ok) { err.textContent = (res && res.error) || '账号或密码错误'; return; }
+        location.hash = '#/dashboard';
+        render();
+      }).catch(() => {
+        if (btn) btn.disabled = false;
+        err.textContent = '无法连接服务器';
+      });
     };
   }
 
@@ -504,7 +509,7 @@
     if (logout) logout.onclick = () => { S.logout(); location.hash = '#/login'; render(); };
     const reset = document.getElementById('resetBtn');
     if (reset) reset.onclick = async () => {
-      if (!(await confirmBox('将清空本地后台演示数据并重新初始化，是否继续？'))) return;
+      if (!(await confirmBox('将清空服务器上的后台数据并重新初始化，是否继续？'))) return;
       S.reset().then(() => {
         log('系统', '重置数据', 'seed v1');
         toast('已重置');

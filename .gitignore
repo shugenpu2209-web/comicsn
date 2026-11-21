@@ -26,6 +26,9 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+# Server database, uploads, and generated admin password
+data/
 *.pem
 *.key
 *.p12
