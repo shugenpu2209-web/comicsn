@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="130" height="46" viewBox="0 0 130 46">
+  <rect x="1" y="1" width="128" height="44" rx="22" fill="#2a2b2d" stroke="#5a5b5d"/>
+  <circle cx="24" cy="23" r="16" fill="#6d6e70"/>
+  <text x="48" y="29" fill="#bdbdbd" font-family="Inter" font-size="16" font-weight="700">NSFW</text>
+</svg>
