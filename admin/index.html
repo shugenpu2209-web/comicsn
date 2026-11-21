@@ -12,7 +12,26 @@
 </head>
 <body>
   <div id="app"></div>
-  <script src="js/store.js?v=ui14"></script>
-  <script src="js/app.js?v=ui14"></script>
+  <script src="js/store.js?v=api1"></script>
+  <script>
+    (function () {
+      var root = document.getElementById('app');
+      function boot() {
+        var script = document.createElement('script');
+        script.src = 'js/app.js?v=api1';
+        document.body.appendChild(script);
+      }
+      function fail(message) {
+        root.innerHTML = '<div class="login-page"><div class="login-card"><h1>无法连接后台</h1><p>' + message + '</p></div></div>';
+      }
+      if (!window.AdminStore || typeof window.AdminStore.ready !== 'function') {
+        fail('后台脚本没有加载。');
+        return;
+      }
+      window.AdminStore.ready().then(boot).catch(function () {
+        fail('请先在本机启动 Node 服务后再打开管理台。');
+      });
+    })();
+  </script>
 </body>
 </html>

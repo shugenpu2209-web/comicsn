@@ -1678,8 +1678,64 @@
 
     let pendingHref = '';
 
+    const USER_TOKEN_KEY = 'comicsn-user-token';
+
+    function authHeaders(token, json) {
+      const headers = { Authorization: 'Bearer ' + token };
+      if (json) headers['Content-Type'] = 'application/json';
+      return headers;
+    }
+
+    function writeMembership(data) {
+      if (!data) return;
+      if (data.vip && data.expireStamp) localStorage.setItem('comicsn-vip-expire', data.expireStamp);
+      else localStorage.removeItem('comicsn-vip-expire');
+      localStorage.setItem('comicsn-vip-orders', JSON.stringify(Array.isArray(data.orders) ? data.orders : []));
+    }
+
+    function readLocalOrders() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem('comicsn-vip-orders') || '[]');
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (err) {
+        return [];
+      }
+    }
+
+    function hydrateVip(token) {
+      return fetch('/api/me/membership', { headers: authHeaders(token) })
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (!data) return null;
+          const localOrders = readLocalOrders();
+          if ((!data.orders || !data.orders.length) && localOrders.length) {
+            return localOrders.slice().reverse().reduce((chain, order) => chain.then(() => fetch('/api/me/vip', {
+              method: 'POST',
+              headers: authHeaders(token, true),
+              body: JSON.stringify(order),
+            }).catch(() => {})), Promise.resolve())
+              .then(() => fetch('/api/me/membership', { headers: authHeaders(token) }))
+              .then((res) => (res.ok ? res.json() : data))
+              .then((fresh) => {
+                writeMembership(fresh || data);
+                return fresh || data;
+              });
+          }
+          writeMembership(data);
+          return data;
+        })
+        .catch(() => null);
+    }
+
     function setLoggedIn(on) {
       localStorage.setItem(AUTH_KEY, on ? '1' : '0');
+      if (!on) {
+        const token = localStorage.getItem(USER_TOKEN_KEY);
+        localStorage.removeItem(USER_TOKEN_KEY);
+        if (token) {
+          fetch('/api/auth/logout', { method: 'POST', headers: authHeaders(token) }).catch(() => {});
+        }
+      }
       syncAuthUi();
       if (!on) {
         pendingHref = '';
@@ -1878,10 +1934,35 @@
         sendSmsCode(modal.querySelector('[data-form="phone"]'), codeBtn, sms);
       });
 
+      function finishAuth(payload) {
+        if (payload && payload.token) localStorage.setItem(USER_TOKEN_KEY, payload.token);
+        const token = localStorage.getItem(USER_TOKEN_KEY);
+        const done = () => {
+          showError(payload && payload.form, '');
+          setLoggedIn(true);
+          setOpen(false);
+        };
+        if (!token) {
+          done();
+          return;
+        }
+        hydrateVip(token).then(done);
+      }
+
+      function postAuth(url, body) {
+        return fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        }).then((res) => res.json().then((data) => ({ ok: res.ok, status: res.status, data })).catch(() => ({ ok: res.ok, status: res.status, data: {} })))
+          .catch(() => null);
+      }
+
       forms.forEach((form) => {
         form.addEventListener('submit', (event) => {
           event.preventDefault();
           const isLogin = modal.dataset.mode === 'login';
+          let payload = null;
           if (form.dataset.form === 'phone') {
             const phone = form.phone.value.trim();
             const code = form.code.value.trim();
@@ -1898,6 +1979,7 @@
               showError(form, t('errPassword'));
               return;
             }
+            payload = isLogin ? { phone } : { phone, password };
           } else {
             const username = form.username.value.trim();
             const password = form.password.value;
@@ -1917,10 +1999,20 @@
               showError(form, t('errMismatch'));
               return;
             }
+            payload = { username, password };
           }
-          showError(form, '');
-          setLoggedIn(true);
-          setOpen(false);
+          const url = isLogin ? '/api/auth/login' : '/api/auth/register';
+          postAuth(url, payload).then((result) => {
+            if (!result) {
+              finishAuth({ form });
+              return;
+            }
+            if (!result.ok) {
+              showError(form, (result.data && result.data.error) || t('errLogin'));
+              return;
+            }
+            finishAuth({ form, token: result.data && result.data.token });
+          });
         });
       });
 
@@ -2022,7 +2114,11 @@
           return;
         }
         showError(form, '');
-        backToLogin();
+        fetch('/api/auth/reset', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone, password }),
+        }).catch(() => {}).finally(() => backToLogin());
       });
 
       modal.openReset = () => {

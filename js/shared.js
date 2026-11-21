@@ -810,6 +810,7 @@
   }
 
   function coverOf(item, list) {
+    if (item && item.cover) return item.cover;
     const idx = Array.isArray(list) ? list.indexOf(item) : -1;
     return THUMBS[(idx >= 0 ? idx : 0) % THUMBS.length];
   }
@@ -1386,6 +1387,102 @@
     prioritizeNew,
   };
 
+  const USER_TOKEN_KEY = 'comicsn-user-token';
+  const VIP_ORDERS_KEY = 'comicsn-vip-orders';
+
+  const titleOverrides = {};
+
+  function noteTitle(id, source) {
+    if (!id || !source) return;
+    const next = {};
+    if (source.title) next.zh = source.title;
+    if (source.titleEn) next.en = source.titleEn;
+    if (source.titlePt) next.pt = source.titlePt;
+    if (!Object.keys(next).length) return;
+    titleOverrides[id] = Object.assign(titleOverrides[id] || {}, next);
+  }
+
+  function applyCatalogList(staticList, serverList) {
+    if (!Array.isArray(serverList) || !serverList.length) return staticList;
+    const known = new Set((staticList || []).map((item) => item.id));
+    let changed = false;
+    const next = [];
+    (staticList || []).forEach((item) => {
+      const row = serverList.find((entry) => entry && entry.id === item.id);
+      if (!row) {
+        next.push(item);
+        return;
+      }
+      if (row.hidden) {
+        changed = true;
+        return;
+      }
+      const patch = row.patch;
+      if (patch && typeof patch === 'object' && Object.keys(patch).length) {
+        changed = true;
+        noteTitle(item.id, patch);
+        next.push(Object.assign({}, item, patch));
+        return;
+      }
+      next.push(item);
+    });
+    serverList.forEach((row) => {
+      if (!row || row.hidden || known.has(row.id) || !row.item) return;
+      changed = true;
+      noteTitle(row.id, row.item);
+      next.push(row.item);
+    });
+    return changed ? next : staticList;
+  }
+
+  function readJsonSync(url, headers) {
+    if (typeof XMLHttpRequest === 'undefined') return null;
+    if (!location || location.protocol === 'file:') return null;
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url, false);
+      if (headers) {
+        Object.keys(headers).forEach((key) => xhr.setRequestHeader(key, headers[key]));
+      }
+      xhr.send(null);
+      if (xhr.status !== 200) return null;
+      return JSON.parse(xhr.responseText);
+    } catch (err) {
+      return null;
+    }
+  }
+
+  function fetchPublicCatalog() {
+    const data = readJsonSync('/api/public/catalog');
+    if (!data || !Array.isArray(data.comics)) return null;
+    return data;
+  }
+
+  function refreshMembershipFromServer() {
+    let token = '';
+    try { token = localStorage.getItem(USER_TOKEN_KEY) || ''; } catch (err) { token = ''; }
+    if (!token) return;
+    const data = readJsonSync('/api/me/membership', { Authorization: 'Bearer ' + token });
+    if (!data || !data.ok) return;
+    try {
+      if (data.vip && data.expireStamp) localStorage.setItem(VIP_EXPIRE_KEY, data.expireStamp);
+      else localStorage.removeItem(VIP_EXPIRE_KEY);
+      localStorage.setItem(VIP_ORDERS_KEY, JSON.stringify(Array.isArray(data.orders) ? data.orders : []));
+    } catch (err) { /* ignore quota */ }
+  }
+
+  const remoteCatalog = fetchPublicCatalog();
+  if (remoteCatalog) {
+    global.ComicsShared.COMICS = applyCatalogList(global.ComicsShared.COMICS, remoteCatalog.comics);
+    global.ComicsShared.NOVELS = applyCatalogList(global.ComicsShared.NOVELS, remoteCatalog.novels);
+    global.ComicsShared.ANIMATIONS = applyCatalogList(global.ComicsShared.ANIMATIONS, remoteCatalog.anime);
+    global.ComicsShared.serverCatalog = {
+      episodes: remoteCatalog.episodes || [],
+      anime: remoteCatalog.animeWorks || [],
+    };
+  }
+  refreshMembershipFromServer();
+
   const JP_COMIC_IDS = {
     evolution: 1, muscle: 1, angel: 1, witch: 1, magical: 1, vengeance: 1,
     'white-hole': 1, 'no-hero': 1, hunter: 1, apocalypse: 1, 'fantasy-tale': 1,
@@ -1399,7 +1496,13 @@
     (list || []).forEach((item) => {
       if (!TITLE_I18N[item.id]) TITLE_I18N[item.id] = {};
       TITLE_I18N[item.id].zh = item.title;
+      if (item.titleEn) TITLE_I18N[item.id].en = item.titleEn;
+      if (item.titlePt) TITLE_I18N[item.id].pt = item.titlePt;
     });
+  });
+  Object.keys(titleOverrides).forEach((id) => {
+    if (!TITLE_I18N[id]) TITLE_I18N[id] = {};
+    Object.assign(TITLE_I18N[id], titleOverrides[id]);
   });
 
   function initLibraryButtons() {

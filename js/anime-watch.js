@@ -135,6 +135,12 @@
   }
 
   function readAdminDb() {
+    if (shared.serverCatalog) {
+      return {
+        episodes: shared.serverCatalog.episodes || [],
+        anime: shared.serverCatalog.anime || [],
+      };
+    }
     try {
       const db = JSON.parse(localStorage.getItem(ADMIN_DB_KEY) || 'null');
       return db && typeof db === 'object' ? db : null;

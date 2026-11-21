@@ -1,9 +1,9 @@
 (function (global) {
   'use strict';
 
-  const DB_KEY = 'comicsn-admin-db-v1';
   const SESSION_KEY = 'comicsn-admin-session';
   const FAIL_KEY = 'comicsn-admin-fail';
+  let memory = null;
 
   const ROLES = {
     super: { name: '超级管理员', perms: ['*'] },
@@ -17,14 +17,14 @@
   };
 
   const ACCOUNTS = [
-    { id: 'au_admin', username: 'admin', password: 'admin123', name: '总部超管', role: 'super', status: 'active' },
-    { id: 'au_content', username: 'content', password: 'content123', name: '林内容', role: 'content', status: 'active' },
-    { id: 'au_review', username: 'review', password: 'review123', name: '周审核', role: 'review', status: 'active' },
-    { id: 'au_ops', username: 'ops', password: 'ops123', name: '陈运营', role: 'ops', status: 'active' },
-    { id: 'au_cs', username: 'cs', password: 'cs123', name: '赵客服', role: 'cs', status: 'active' },
-    { id: 'au_finance', username: 'finance', password: 'finance123', name: '钱财务', role: 'finance', status: 'active' },
-    { id: 'au_data', username: 'data', password: 'data123', name: '孙数据', role: 'data', status: 'active' },
-    { id: 'au_agent', username: 'agent', password: 'agent123', name: '吴代理', role: 'agent', status: 'active' },
+    { id: 'au_admin', username: 'admin', name: '总部超管', role: 'super', status: 'active' },
+    { id: 'au_content', username: 'content', name: '林内容', role: 'content', status: 'active' },
+    { id: 'au_review', username: 'review', name: '周审核', role: 'review', status: 'active' },
+    { id: 'au_ops', username: 'ops', name: '陈运营', role: 'ops', status: 'active' },
+    { id: 'au_cs', username: 'cs', name: '赵客服', role: 'cs', status: 'active' },
+    { id: 'au_finance', username: 'finance', name: '钱财务', role: 'finance', status: 'active' },
+    { id: 'au_data', username: 'data', name: '孙数据', role: 'data', status: 'active' },
+    { id: 'au_agent', username: 'agent', name: '吴代理', role: 'agent', status: 'active' },
   ];
 
   const CAT_MAP = {
@@ -469,7 +469,7 @@
         { id: 'tpl_pay', name: '支付成功', channel: '邮件', body: '订单{orderId}支付成功，金额{amount}' },
       ],
       settings: { siteName: 'COMICSN', langDefault: 'zh', langs: 'zh,en,pt', fileMaxMb: 20, videoMaxMb: 300, cdn: 'cdn.comicsn.com' },
-      admins: ACCOUNTS.map(({ password, ...rest }) => rest),
+      admins: ACCOUNTS.map((account) => Object.assign({}, account)),
       logs: [
         { id: 'lg_1', actor: '总部超管', role: 'super', module: '系统', action: '初始化后台数据', detail: 'seed v1', createdAt: now() },
       ],
@@ -483,14 +483,31 @@
   }
 
   function load() {
-    try {
-      const raw = localStorage.getItem(DB_KEY);
-      if (!raw) return null;
-      const db = JSON.parse(raw);
-      return db && db.version ? db : null;
-    } catch (err) {
-      return null;
-    }
+    return memory;
+  }
+
+  function authToken() {
+    const current = session();
+    return current && current.token ? current.token : '';
+  }
+
+  function ready() {
+    const current = session();
+    if (!current || !current.token) return Promise.resolve(null);
+    return fetch('/api/admin/state', { headers: { Authorization: 'Bearer ' + current.token } })
+      .then((res) => {
+        if (res.status === 401) {
+          setSession(null);
+          memory = null;
+          return null;
+        }
+        if (!res.ok) throw new Error('无法加载后台数据');
+        return res.json();
+      })
+      .then((data) => {
+        if (data) memory = data;
+        return data;
+      });
   }
 
   const ASSET_DB = 'comicsn-admin-assets-v1';
@@ -603,6 +620,24 @@
     });
   }
 
+  function uploadAsset(blob, mime, name, kind) {
+    const token = authToken();
+    if (!token) return Promise.reject(new Error('请先登录后再上传'));
+    return fetch('/api/admin/assets', {
+      method: 'POST',
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': mime || (blob && blob.type) || 'application/octet-stream',
+        'X-File-Name': encodeURIComponent(name || 'upload'),
+        'X-Asset-Kind': kind || 'file',
+      },
+      body: blob,
+    }).then((res) => res.json().then((data) => {
+      if (!res.ok || !data.url) throw new Error((data && data.error) || '上传失败');
+      return data.url;
+    }));
+  }
+
   function saveImage(file, opts) {
     if (!(file instanceof Blob)) return Promise.resolve('');
     const maxMb = Number((load() && load().settings && load().settings.fileMaxMb) || 20);
@@ -611,10 +646,7 @@
     }
     const type = file.type || '';
     const ready = type.indexOf('image/') === 0 ? compressImage(file, opts) : Promise.resolve(file);
-    return ready.then((blob) => {
-      const key = 'idb:' + uid('as');
-      return putAsset(key, blob).then(() => key);
-    });
+    return ready.then((blob) => uploadAsset(blob, 'image/jpeg', (file && file.name) || 'image.jpg', 'image'));
   }
 
   function saveFile(file, opts) {
@@ -625,18 +657,25 @@
     if (file.size > maxMb * 1024 * 1024) {
       return Promise.reject(new Error('文件超过 ' + maxMb + 'MB 上限'));
     }
-    const key = 'idb:' + uid(kind === 'video' ? 'vid' : 'as');
-    return putAsset(key, file).then(() => key);
+    return uploadAsset(file, file.type || 'application/octet-stream', file.name || 'file', kind);
   }
 
   function save(data) {
-    try {
-      localStorage.setItem(DB_KEY, JSON.stringify(data));
-    } catch (err) {
-      const quota = err && (err.name === 'QuotaExceededError' || err.code === 22 || err.code === 1014);
-      throw new Error(quota
-        ? '本地容量不足。封面和章节内容请重新上传（图片已改为独立存储）'
-        : '保存失败，请重试');
+    memory = data;
+    const token = authToken();
+    if (!token) throw new Error('登录已失效，请重新登录');
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', '/api/admin/state', false);
+    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+    xhr.send(JSON.stringify(data));
+    if (xhr.status < 200 || xhr.status >= 300) {
+      let message = '保存失败，请重试';
+      try {
+        const body = JSON.parse(xhr.responseText || '{}');
+        if (body && body.error) message = body.error;
+      } catch (err) { /* keep fallback */ }
+      throw new Error(message);
     }
   }
 
@@ -769,14 +808,8 @@
   }
 
   function db() {
-    let data = load();
-    if (!data) {
-      data = seed();
-      save(data);
-      return data;
-    }
-    if (migrate(data)) save(data);
-    return data;
+    if (!memory) throw new Error('后台数据尚未加载');
+    return memory;
   }
 
   function commit(mutator, log) {
@@ -841,34 +874,43 @@
   function login(username, password) {
     const st = failState();
     if (st.until && Date.now() < st.until) {
-      return { ok: false, error: '尝试过多，请稍后再试' };
+      return Promise.resolve({ ok: false, error: '尝试过多，请稍后再试' });
     }
-    const acc = ACCOUNTS.find((a) => a.username === username && a.password === password && a.status === 'active');
-    if (!acc) {
-      markFail();
-      return { ok: false, error: '账号或密码错误' };
-    }
-    clearFail();
-    const token = uid('tk');
-    const s = { token, userId: acc.id, username: acc.username, name: acc.name, role: acc.role };
-    setSession(s);
-    commit((data) => {
-      data.loginLogs.unshift({ id: uid('ll'), username, ip: '127.0.0.1', result: '成功', createdAt: now() });
-    }, { actor: acc.name, role: acc.role, module: '认证', action: '登录', detail: username });
-    return { ok: true, session: s };
+    return fetch('/api/admin/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: username, password: password }),
+    }).then((res) => res.json().then((data) => ({ res: res, data: data })).catch(() => ({ res: res, data: {} })))
+      .then(({ res, data }) => {
+        if (!res.ok || !data.ok || !data.session) {
+          if (res.status === 401 || res.status === 429) markFail();
+          return { ok: false, error: (data && data.error) || '账号或密码错误' };
+        }
+        clearFail();
+        setSession(data.session);
+        memory = data.state || null;
+        return { ok: true, session: data.session };
+      })
+      .catch(() => ({ ok: false, error: '无法连接服务器' }));
   }
 
   function logout() {
     const s = session();
-    if (s) {
-      commit(() => {}, { actor: s.name, role: s.role, module: '认证', action: '退出', detail: s.username });
+    if (s && memory) {
+      try {
+        commit(() => {}, { actor: s.name, role: s.role, module: '认证', action: '退出', detail: s.username });
+      } catch (err) { /* session still ends locally */ }
     }
+    const token = s && s.token;
     setSession(null);
+    memory = null;
+    if (token) {
+      fetch('/api/admin/logout', { method: 'POST', headers: { Authorization: 'Bearer ' + token } }).catch(() => {});
+    }
   }
 
   global.AdminStore = {
     ROLES,
-    ACCOUNTS,
     CAT_MAP,
     EXTRA_BY_CAT,
     uid,
@@ -882,12 +924,20 @@
     can,
     login,
     logout,
+    ready,
+    createSeed: seed,
     saveImage,
     saveFile,
     assetUrl,
     reset() {
-      localStorage.removeItem(DB_KEY);
-      return clearAssets().then(() => db());
+      return fetch('/api/admin/reset', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + authToken() },
+      }).then((res) => res.json().then((data) => {
+        if (!res.ok || !data.state) throw new Error((data && data.error) || '重置失败');
+        memory = data.state;
+        return clearAssets().then(() => memory);
+      }));
     },
   };
 })(window);
